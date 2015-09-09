@@ -6,8 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-import javax.swing.plaf.synth.SynthStyle;
-
 public class Timetable
 {
 	boolean updated = false;
