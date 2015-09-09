@@ -2,12 +2,15 @@ package fbelanger_B13_A01_Arrays;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.plaf.synth.SynthStyle;
 
 public class Timetable
 {
+	boolean updated = false;
 	private final File TIMETABLE_FILE = new File("Timetable.txt");
 	private Week week;
 	
@@ -50,6 +53,32 @@ public class Timetable
 		}
 	}
 	
+	public void saveFile(File file)
+	{
+		if (updated)
+		{
+			updated = false;
+			String content = "";
+			for (int i = 0; i <= 4; i++)
+			{
+				for (int j = 0; j <= 9; j++)
+				{
+					content += week.getDay(i) + " " + week.getDay(i).getHour(j) + "\n";
+				}
+			}
+			try
+			{
+				FileWriter w = new FileWriter(file);
+				w.write(content);
+				w.close();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**
 	 * main
 	 * @param args
@@ -76,8 +105,10 @@ public class Timetable
 			System.out.print("Enter option: ");
 			
 			userInput = prompt.next();
-			if (userInput.equals("exit"));
-				// do nothing loop will handle
+			if (userInput.equals("exit"))
+			{
+				saveFile(TIMETABLE_FILE);
+			}
 			
 			else if (userInput.equals("1"))
 				readTimeTable(prompt);
@@ -122,17 +153,21 @@ public class Timetable
 			return;
 		else if (userInput.equals("1"))
 		{
+			updated = true;
 			System.out.print(hour.getCourseNumber() + ": ");
 			userInput = prompt.next();
 			hour.setCourseNumber(userInput);
 			week.getDay(weekday).setHour(time, hour);
+			saveFile(TIMETABLE_FILE);
 		}
 		else if (userInput.equals("2"))
 		{
+			updated = true;
 			System.out.print(hour.getRoomNumber() + ": ");
 			userInput = prompt.next();
 			hour.setRoomNumber(userInput);
 			week.getDay(weekday).setHour(time, hour);
+			saveFile(TIMETABLE_FILE);
 		}
 		else
 			System.out.println("Invalid option");
