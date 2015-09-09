@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import javax.swing.plaf.synth.SynthStyle;
+
 public class Timetable
 {
 	private final File TIMETABLE_FILE = new File("Timetable.txt");
@@ -66,14 +68,14 @@ public class Timetable
 		// main application loop
 		while(!userInput.equals("exit"))
 		{
-			System.out.println("\nTimetable");
+			System.out.println();
+			System.out.println("Timetable");
 			System.out.println("1. Read timetable");
 			System.out.println("2. Update timetable");
 			System.out.println("3. List timetable");
-			
 			System.out.print("Enter option: ");
-			userInput = prompt.next();
 			
+			userInput = prompt.next();
 			if (userInput.equals("exit"));
 				// do nothing loop will handle
 			
@@ -87,39 +89,68 @@ public class Timetable
 				listTimeTable();
 			
 			else
-				System.out.println("Not an option");
+				System.out.println("Invalid option");
 		}
 		prompt.close();
 	}
 	
 	private void readTimeTable(Scanner prompt)
 	{
-		Day day = selectDay(prompt);
-		Hour hour = selectHour(day, prompt);
-		System.out.println(day + " " + hour);
+		int weekday = selectDayIndex(prompt);
+		Day day = week.getDay(weekday);
+		
+		int time = selectHourIndex(prompt);
+		Hour hour = day.getHour(time);
+		
+		System.out.printf("\n%s %s\n", day, hour);
 	}
 	
 	private void updateTimeTable(Scanner prompt)
 	{
-		Day day = selectDay(prompt);
-		Hour hour = selectHour(day, prompt);
-		System.out.println(day + " " + hour);
+		int weekday = selectDayIndex(prompt);
+		Day day = week.getDay(weekday);
+		
+		int time = selectHourIndex(prompt);
+		Hour hour = day.getHour(time);
+		
+		System.out.println("\n1. " + hour.getCourseNumber());
+		System.out.println("2. " + hour.getRoomNumber());
+		System.out.print("Enter option: ");
+		
+		String userInput = prompt.next();
+		if (userInput.equals("exit"))
+			return;
+		else if (userInput.equals("1"))
+		{
+			System.out.print(hour.getCourseNumber() + ": ");
+			userInput = prompt.next();
+			hour.setCourseNumber(userInput);
+			week.getDay(weekday).setHour(time, hour);
+		}
+		else if (userInput.equals("2"))
+		{
+			System.out.print(hour.getRoomNumber() + ": ");
+			userInput = prompt.next();
+			hour.setRoomNumber(userInput);
+			week.getDay(weekday).setHour(time, hour);
+		}
+		else
+			System.out.println("Invalid option");
 	}
 	
-	private Day selectDay(Scanner prompt)
+	private int selectDayIndex(Scanner prompt)
 	{
 		System.out.print("\nEnter a week day: ");
 		String userInput = prompt.next();
-		int weekday = Day.convertNameOrFullNameToDay(userInput);
-		return week.getDay(weekday);
+		return Day.convertNameOrFullNameToDay(userInput);
 	}
 	
-	private Hour selectHour(Day day, Scanner prompt)
+	
+	private int selectHourIndex(Scanner prompt)
 	{
 		System.out.print("Enter a time of the day: ");
 		String userInput = prompt.next();
-		int time = Hour.convertTimeToIndex(userInput);
-		return day.getHour(time);
+		return Hour.convertTimeToIndex(userInput);
 	}
 	
 	private void listTimeTable()
