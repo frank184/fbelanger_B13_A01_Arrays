@@ -6,16 +6,16 @@ package fbelanger_B13_A01_Arrays;
 public class Hour
 {
 	//Hours of a day
-	public static final int EIGHT 		 = 0;
-	public static final int NINE  		 = 1;
-	public static final int TEN   		 = 2;
-	public static final int ELEVEN 	 = 3;
-	public static final int TWELEVE 	 = 4;
-	public static final int THIRTEEN  = 5, ONE 	= 5;
-	public static final int FOURTEEN  = 6, TWO 	= 6;
-	public static final int FIFTEEN   = 7, THREE = 7;
-	public static final int SIXTEEN	 = 8, FOUR  = 8;
-	public static final int SEVENTEEN = 9, FIVE  = 9;
+	public static final int EIGHT     = 0;
+	public static final int NINE      = 1;
+	public static final int TEN       = 2;
+	public static final int ELEVEN    = 3;
+	public static final int TWELEVE   = 4;
+	public static final int THIRTEEN  = 5, ONE    = 5;
+	public static final int FOURTEEN  = 6, TWO    = 6;
+	public static final int FIFTEEN   = 7, THREE  = 7;
+	public static final int SIXTEEN   = 8, FOUR   = 8;
+	public static final int SEVENTEEN = 9, FIVE   = 9;
 	
 	private String courseNumber;
 	private String roomNumber;
@@ -28,7 +28,7 @@ public class Hour
 	 */
 	public Hour(int hour)
 	{
-		if (hour > 7 && hour < 17)
+		if (hour >= 8 && hour <= 17)
 		{
 			this.hour = hour;
 			this.courseNumber = "FREE";
@@ -53,7 +53,7 @@ public class Hour
 	 */
 	public Hour(int hour, String courseNumber)
 	{
-		if (hour > 7 && hour < 17)
+		if (hour >= 8 && hour <= 17)
 		{
 			this.hour = hour;
 			this.courseNumber = courseNumber;
@@ -80,7 +80,7 @@ public class Hour
 	 */
 	public Hour(int hour, String courseNumber, String roomNumber)
 	{
-		if (hour > 7 && hour < 17)
+		if (hour >= 8 && hour <= 17)
 		{
 			this.hour = hour;
 			this.courseNumber = courseNumber;
@@ -96,6 +96,75 @@ public class Hour
 				e.printStackTrace();
 				System.exit(-1);
 			}
+	}
+	
+	public static int convertTimeToIndex(String time)
+	{
+		time = time.toUpperCase();
+		switch(time)
+		{
+		case "EIGHT":
+			return Hour.EIGHT;
+		case "NINE":
+			return Hour.NINE;
+		case "TEN":
+			return Hour.TEN;
+		case "ELEVEN":
+			return Hour.ELEVEN;
+		case "TWELEVE":
+			return Hour.TWELEVE;
+		case "THIRTEEN":
+			return Hour.THIRTEEN;
+		case "FOURTEEN":
+			return Hour.FOURTEEN;
+		case "FIFTEEN":
+			return Hour.FIFTEEN;
+		case "SIXTEEN":
+			return Hour.SIXTEEN;
+		case "SEVENTEEN":
+			return Hour.SEVENTEEN;
+		case "ONE":
+			return Hour.ONE;
+		case "TWO":
+			return Hour.TWO;
+		case "THREE":
+			return Hour.THREE;
+		case "FOUR":
+			return Hour.FOUR;
+		case "FIVE":
+			return Hour.FIVE;
+		case "8":
+			return Hour.EIGHT;
+		case "9":
+			return Hour.NINE;
+		case "10":
+			return Hour.TEN;
+		case "11":
+			return Hour.ELEVEN;
+		case "12":
+			return Hour.TWELEVE;
+		case "13":
+			return Hour.THIRTEEN;
+		case "14":
+			return Hour.FOURTEEN;
+		case "15":
+			return Hour.FIFTEEN;
+		case "16":
+			return Hour.SIXTEEN;
+		case "17":
+			return Hour.SEVENTEEN;
+		case "1":
+			return Hour.ONE;
+		case "2":
+			return Hour.TWO;
+		case "3":
+			return Hour.THREE;
+		case "4":
+			return Hour.FOUR;
+		case "5":
+			return Hour.FIVE;
+		}
+		return -1;
 	}
 	
 	/**
@@ -141,7 +210,7 @@ public class Hour
 	 */
 	public void setHour(int hour)
 	{
-		if (hour > 7 && hour < 17)
+		if (hour >= 8 && hour <= 17)
 		{
 			this.hour = hour;
 		}
@@ -202,15 +271,13 @@ public class Hour
 		HourException(int hour)
 		{
 			super(buildMessage(hour));
-			for(int i = 0; i < 9; i++);
-			System.exit(-1);
 		}
 		
 		public static String buildMessage(int hour)
 		{
 			String s = new String();
-			if (hour < 8)  s = ": " + hour + " is too early";
-			if (hour > 17) s = ": " + hour + " is too late";
+			if (hour < -1)  s = ": " + hour + " is too early";
+			if (hour > 9) s = ": " + hour + " is too late";
 			return "Invalid Hour" + s;
 		}
 	}

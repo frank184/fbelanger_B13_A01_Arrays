@@ -13,6 +13,15 @@ public class Week
 	 * Instantiates a Week by setting the array of Day class.
 	 * @param days
 	 */
+	public Week()
+	{
+		this.days = new Day[5];
+	}
+	
+	/**
+	 * Instantiates a Week by setting the array of Day class.
+	 * @param days
+	 */
 	public Week(Day...days)
 	{
 		if (days.length == 5)
